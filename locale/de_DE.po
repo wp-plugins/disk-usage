@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: disk usage\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-08-20 22:01+0100\n"
+"Last-Translator: rr <rol@rm-r.at>\n"
+"Language-Team: Roland Rust <wordpress@designpraxis.at>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: AUSTRIA\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: E:\\www.designpraxis.at\\wordpress\\wp-content\\plugins\n"
+"X-Poedit-SearchPath-0: disk-usage\n"
+
+#: disk-usage/disk-usage.php:73
+msgid "Unfortunately, you cannot use this plugin. It uses the du (disk usage) command only available in Unix and Mac OSX environments, if php is allowed to execute it."
+msgstr "Leider können Sie dieses Plugin nicht benutzen. Es basiert auf dem du (disk usage) Befehl, welcher nur auf Unix und Mac OSX Rechnern verfügbar ist. Darüberhinaus muß PHP so konfiguriert sein, dass es den Befehl ausführen darf."
+
+#: disk-usage/disk-usage.php:79
+msgid "Your WordPress installation uses"
+msgstr "Ihre WordPress installation verbraucht"
+
+#: disk-usage/disk-usage.php:81
+msgid "of disk space."
+msgstr "Speicherplatz"
+
+#: disk-usage/disk-usage.php:98
+msgid "Your WordPress installation contains"
+msgstr "Ihre WordPress Installation beinhaltet"
+
+#: disk-usage/disk-usage.php:100
+msgid "directories:"
+msgstr "Verzeichnisse:"
+
+#: disk-usage/disk-usage.php:113
+msgid "The directory containing the biggest files and largest subdirectories is"
+msgstr "Das Verzeichnis, welche die größten Dateien und Unterverzeichnisse beinhaltet ist"
+
+#: disk-usage/disk-usage.php:133
+msgid "Disk Usage"
+msgstr "Speicherplatzverbrauch"
+
+#: disk-usage/disk-usage.php:134
+msgid "Checking disk usage. Please wait."
+msgstr "Speicherplatzverbrauch wird überprüft. Bitte warten."
+
+#: disk-usage/disk-usage.php:138
+msgid "Running into Troubles? Features to suggest?"
+msgstr "Haben Sie Schwierigkeiten mit dem Plugin? Haben sie Vorschläge zu Verbesserung?"
+
+#: disk-usage/disk-usage.php:140
+msgid "Drop me a line"
+msgstr "Schreiben Sie mir"
+
+#: disk-usage/disk-usage.php:145
+msgid "Do you like this Plugin?"
+msgstr "Finden sie dieses Plugin nützlich?"
+
+#: disk-usage/disk-usage.php:146
+msgid "Consider to"
+msgstr "Unterstützen Sie meine Arbeit"
+
