@@ -3,7 +3,7 @@
 Plugin Name: Disk Usage
 Plugin URI: http://wordpress.designpraxis.at
 Description: Displays disk space used by your WordPress installation.
-Version: 1.1
+Version: 2.0
 Author: Roland Rust
 Author URI: http://wordpress.designpraxis.at
 */
@@ -11,11 +11,18 @@ Author URI: http://wordpress.designpraxis.at
 /* 
 Changelog:
 
+Changes in 2.0
+
+- treemap added
+
 Changes in 1.1
 
 - bug fixed for script loading with  
 	add_action('admin_print_scripts-manage_page_disk-usage/disk-usage', 'dprx_du_loadjs');
 */
+
+
+require_once(dirname(__FILE__)."/treemap.php");
 
 add_action('init', 'dprx_du_init_locale',98);
 function dprx_du_init_locale() {
@@ -44,8 +51,39 @@ function dprx_du_check_dir_bytes($dir) {
 	return $sum[0];
 }
 
-function dprx_du_format_size($rawSize) {
-    $rawSize = $rawSize*1024;
+function listdir($start_dir = ABSPATH) {
+  $files = array();
+  if (is_dir($start_dir)) {
+    $fh = opendir($start_dir);
+    while (($file = readdir($fh)) !== false) {
+      # loop through the files, skipping . and .., and recursing if necessary
+      if (strcmp($file, '.')==0 || strcmp($file, '..')==0) continue;
+      $filepath = $start_dir .'/'. $file;
+      if ( is_dir($filepath) ) {
+        $files = array_merge($files, listdir($filepath));
+      } else {
+	$size = filesize($filepath);
+		if ($size > 100000) {
+			$filepath = str_replace(ABSPATH,"",$filepath);
+			$files[$filepath] = $size;
+        		//array_push($files, array($filepath => $size));
+		}
+	}
+    }
+    closedir($fh);
+  } else {
+    # false if the function was called with an invalid non-directory argument
+    $files = false;
+  }
+
+  return $files;
+
+}
+
+function dprx_du_format_size($rawSize,$bytes="") {
+	if (empty($bytes)) {
+    		$rawSize = $rawSize*1024;
+	}
     if ($rawSize / 1048576 > 1) 
         return round($rawSize/1048576, 1) . ' MB'; 
     else if ($rawSize / 1024 > 1) 
@@ -59,7 +97,9 @@ wp_enqueue_script('prototype');
 /* This is a workaround for WordPress bug http://trac.wordpress.org/browser/trunk/wp-admin/admin-header.php?rev=5640 */
 if (eregi("disk-usage",$_GET['page'])) {
 add_action('admin_print_scripts', 'dprx_du_loadjs');
+add_action('admin_print_scripts', 'dprx_du_loadcss');
 }
+
 function dprx_du_loadjs() {
 	?>
 	<script type="text/javascript">
@@ -73,6 +113,12 @@ function dprx_du_loadjs() {
 		);
 	}
 	</script>
+	<?php
+}
+
+function dprx_du_loadcss() {
+	?>
+	<link href="<?php bloginfo("wpurl"); ?>/wp-content/plugins/disk-usage/treemap.css" rel="stylesheet" type="text/css">
 	<?php
 }
 
@@ -91,6 +137,19 @@ function dprx_check_disk_usage() {
 		<b><?php echo dprx_du_check_dir(ABSPATH); ?></b>
 		<?php _e('of disk space.', 'dprx_du') ?>
 		</p>
+
+		<p>
+		<?php
+		$tree = listdir();
+		
+		// sort the array according to size
+		arsort($tree);
+			
+		// call the function
+		echo render_treemap($tree, 800, 500, 0, 1);
+		?>
+		</p>
+
 		<?php
 		$dirarray = array();
 		if ($handle = opendir(ABSPATH)) {
@@ -105,6 +164,7 @@ function dprx_check_disk_usage() {
 		    closedir($handle);
 		}
 		?>
+
 		<p>
 		<?php _e('Your WordPress installation contains', 'dprx_du') ?>
 		<b><?php echo count($dirarray); ?></b>
